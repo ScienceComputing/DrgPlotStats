@@ -1,0 +1,122 @@
+---
+title: "Lab #2: Making an R Package"
+author: <font size = 5>Student Anni Liu</font>
+date: <font size = 2>*Due 11:59 pm on October 27, 2021*</font>
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    fig_height: 4.5
+    fig_width: 4.5
+    theme: journal
+---
+
+[A link to the repository](https://github.com/anniliu1/DrgPlotStat.git)
+
+```{r,echo=TRUE}
+knitr::opts_chunk$set(
+  cache = TRUE,
+  error = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  tidy.opts = list(width.cutoff = 60),
+  fig.width = 8,
+  fig.height = 6
+)
+```
+
+\
+
+### Load libraries
+```{r}
+## load in the libraries ------------------------------------------------------
+library(readr) 
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(devtools)
+library(usethis)
+library(roxygen2)
+
+## disable scientific notation ------------------------------------------------
+options(scipen = 999, digits = 2)
+```
+### Write functions
+```{r, functions}
+## function 1: create a boxplot of payments by DRG code -----------------------
+payment_plot <- function(data, pay_type){
+  data %>%
+    mutate(drg_code = unlist( ## create a variable for DRG code
+                        map( ## apply strsplit() to each element of `DRG Definition` column
+                          strsplit( ## extract numerical part of DRG definition
+                            x = `DRG Definition`,
+                            split = " "),
+                          1))) %>%
+    ggplot(aes( ## initialize ggplot object
+      x = drg_code,
+      y = get(pay_type),
+      fill = drg_code)) + ## color boxplots by DRG code 
+    geom_boxplot() + ## make boxplots
+    guides(fill = 'none') + ## remove legend
+    labs(
+      x = "DRG code", ## relabel x-axis
+      y = pay_type, ## relabel y-axis
+      title = paste(pay_type, ' by DRG Code')) + ## relabel title
+    theme_classic() + ## use classic plotting style
+    theme(axis.text.x = element_text(
+                          angle = 90, ## rotate x-axis label
+                          vjust = 0.5, ## adjust location
+                          hjust=1)) ## adjust location
+}
+
+## function 2: calculate statistics for average Medicare payments by DRG code -
+payment_calculate <- function(data, statistics){
+  data_clean <- data %>%
+    mutate(drg_code = unlist( ## create a variable for DRG code
+                        map( ## apply strsplit() to each element of `DRG Definition` column
+                          strsplit( ## extract numerical part of DRG definition
+                            x = `DRG Definition`, 
+                            split = " "),
+                          1))) %>%
+    group_by(drg_code) ## group data by DRG code
+  if(statistics == 'mean'){ ## set condition
+    data_clean %>%
+      summarise(mean = mean(`Average Medicare Payments`)) ## calculate mean of average Medicare payments by DRG code
+  }
+  else if(statistics == 'median'){ ## set condition
+    data_clean %>%
+      summarise(median = median(`Average Medicare Payments`))} ## calculate median of average Medicare payments by DRG code
+  else { ## set condition
+    data_clean %>%
+      summarise(standard_deviation = sd(`Average Medicare Payments`))} ## calculate standard deviation of average Medicare payments by DRG code
+}
+```
+
+### Data analysis using functions
+```{r, analysis}
+## load and save data
+sample_data <- read_csv('data/DRG_data.csv') ## import data from DRG_data.csv
+save(sample_data, file = 'data/sample_data.RData') ## save data as .RData
+
+## experiment with function 1
+payment_plot(data = sample_data, pay_type = 'Average Medicare Payments')
+payment_plot(data = sample_data, pay_type = 'Average Total Payments')
+payment_plot(data = sample_data, pay_type = 'Average Covered Charges')
+
+## experiment with function 2
+payment_calculate(data = sample_data, statistics = 'mean') ## calculate mean of average Medicare payments by DRG code
+payment_calculate(data = sample_data, statistics = 'median') ## calculate median of average Medicare payments by DRG code
+payment_calculate(data = sample_data, statistics = 'standard deviation') ## calculate standard deviation of average Medicare payments by DRG code
+```
+### Wrap functions into an R package
+```{r, package coding}
+## This part documents core coding operations on wrapping functions into an R package
+## document() ## build documentation
+## setwd('..') ## go down one level in the working directory
+## install('DrgPlotStat') ## install new package
+## ?payment_plot ## check help page of function 1
+## ?payment_calculate ## check help page of function 2
+## data(sample_data) ## load sample data attached to package
+## install_github('anniliu1/DrgPlotStat') ## install package from GitHub
+```
