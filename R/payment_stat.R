@@ -20,7 +20,7 @@ payment_calculate <- function(data, statistics){
       map(
         strsplit(
           x = `DRG Definition`,
-          split = " "),
+          split = ' '),
         1))) %>%
     group_by(drg_code)
   if(statistics == 'mean'){

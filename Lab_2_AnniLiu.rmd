@@ -54,7 +54,7 @@ payment_plot <- function(data, pay_type){
                         map( ## apply strsplit() to each element of `DRG Definition` column
                           strsplit( ## extract numerical part of DRG definition
                             x = `DRG Definition`,
-                            split = " "),
+                            split = ' '),
                           1))) %>%
     ggplot(aes( ## initialize ggplot object
       x = drg_code,
@@ -80,7 +80,7 @@ payment_calculate <- function(data, statistics){
                         map( ## apply strsplit() to each element of `DRG Definition` column
                           strsplit( ## extract numerical part of DRG definition
                             x = `DRG Definition`, 
-                            split = " "),
+                            split = ' '),
                           1))) %>%
     group_by(drg_code) ## group data by DRG code
   if(statistics == 'mean'){ ## set condition

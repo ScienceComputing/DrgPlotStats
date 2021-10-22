@@ -21,7 +21,7 @@ payment_plot <- function(data, pay_type){
                         map(
                           strsplit(
                             x = `DRG Definition`,
-                            split = " "),
+                            split = ' '),
                           1))) %>%
     ggplot(aes(
       x = drg_code,
