@@ -65,7 +65,7 @@ payment_plot <- function(data, pay_type){
     labs(
       x = "DRG code", ## relabel x-axis
       y = pay_type, ## relabel y-axis
-      title = paste(pay_type, ' by DRG Code')) + ## relabel title
+      title = paste(pay_type, 'by DRG Code')) + ## relabel title
     theme_classic() + ## use classic plotting style
     theme(axis.text.x = element_text(
                           angle = 90, ## rotate x-axis label
