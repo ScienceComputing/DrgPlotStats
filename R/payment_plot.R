@@ -5,7 +5,7 @@
 #' @param data a dataframe
 #' @param pay_type a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges
 #'
-#' @return A boxplot of payments of \code{pay_type} by DRG code
+#' @return A boxplot of payments for \code{pay_type} by DRG code
 #' @export
 #'
 #' @import dplyr
@@ -13,8 +13,9 @@
 #' @import ggplot2
 #'
 #' @examples
-#' payment_plot(data = sample_data, pay_type = 'Average Medicare Payments')
-#'
+#' payment_plot(data = sample_data, pay_type = 'Average Medicare Payments') ## return a boxplot of average Medicare payments (log transformed) by DRG code
+#' payment_plot(data = sample_data, pay_type = 'Average Total Payments') ## return a boxplot of average total payments (log transformed) by DRG code
+#' payment_plot(data = sample_data, pay_type = 'Average Covered Charges') ## return a boxplot of average covered payments (log transformed) by DRG code
 payment_plot <- function(data, pay_type){
   data %>%
     mutate(drg_code = unlist( ## create a variable for DRG code
