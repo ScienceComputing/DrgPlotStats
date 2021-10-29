@@ -1,11 +1,11 @@
 #' Payment Plot
 #'
-#' This function creates a boxplot of payments of \code{pay_type} by DRG code.
+#' This function creates a boxplot of payments for each \code{pay_type} by DRG code.
 #'
-#' @param data a dataframe.
-#' @param pay_type a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges.
+#' @param data a dataframe
+#' @param pay_type a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges
 #'
-#' @return A boxplot of payments of \code{pay_type} by DRG code.
+#' @return A boxplot of payments of \code{pay_type} by DRG code
 #' @export
 #'
 #' @import dplyr

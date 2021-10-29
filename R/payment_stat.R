@@ -2,19 +2,19 @@
 #'
 #' This function calculates \code{statistics} over all of the DRG codes for average Medicare payments.
 #'
-#' @param data a dataframe.
-#' @param statistics a string name for either the mean, median or standard deviation.
+#' @param data a dataframe
+#' @param statistics a string name for either the mean, median or standard deviation
 #'
-#' @return A dataframe of either the mean, median or standard deviation for average Medicare payments by DRG code.
+#' @return A dataframe of either the mean, median or standard deviation for average Medicare payments by DRG code
 #' @export
 #'
 #' @import dplyr
 #' @importFrom purrr map
 #'
 #' @examples
-#' payment_calculate(data = sample_data, statistics = 'mean') ## mean of average Medicare payments by DRG code
-#' payment_calculate(data = sample_data, statistics = 'median') ## median of average Medicare payments by DRG code
-#' payment_calculate(data = sample_data, statistics = 'standard deviation') ## standard deviation of average Medicare payments by DRG code
+#' payment_calculate(data = sample_data, statistics = 'mean') ## return mean of average Medicare payments by DRG code
+#' payment_calculate(data = sample_data, statistics = 'median') ## return median of average Medicare payments by DRG code
+#' payment_calculate(data = sample_data, statistics = 'standard deviation') ## return standard deviation of average Medicare payments by DRG code
 #'
 payment_calculate <- function(data, statistics){
   data_clean <- data %>%
