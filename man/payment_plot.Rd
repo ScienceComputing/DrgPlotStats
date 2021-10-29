@@ -12,12 +12,13 @@ payment_plot(data, pay_type)
 \item{pay_type}{a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges}
 }
 \value{
-A boxplot of payments of \code{pay_type} by DRG code
+A boxplot of payments for \code{pay_type} by DRG code
 }
 \description{
 This function creates a boxplot of payments for each \code{pay_type} by DRG code.
 }
 \examples{
-payment_plot(data = sample_data, pay_type = 'Average Medicare Payments')
-
+payment_plot(data = sample_data, pay_type = 'Average Medicare Payments') ## return a boxplot of average Medicare payments (log transformed) by DRG code
+payment_plot(data = sample_data, pay_type = 'Average Total Payments') ## return a boxplot of average total payments (log transformed) by DRG code
+payment_plot(data = sample_data, pay_type = 'Average Covered Charges') ## return a boxplot of average covered payments (log transformed) by DRG code
 }
