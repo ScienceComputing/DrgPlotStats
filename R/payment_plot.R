@@ -29,7 +29,8 @@ payment_plot <- function(data, pay_type){
             fill = drg_code)) + ## color boxplots by DRG code
       geom_boxplot() + ## make boxplots
       guides(fill = 'none') + ## remove legend
-      scale_y_continuous(trans = 'log10') + ## use log scale of y-axis
+      scale_y_continuous(trans = 'log10', ## use log scale of y-axis
+                         labels = format_format(scientific = FALSE)) + ## avoid scientific notation
       labs(
         x = "DRG code", ## relabel x-axis
         y = paste0('Log (', pay_type, ' (USD))'), ## relabel y-axis
