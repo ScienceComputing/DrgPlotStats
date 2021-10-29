@@ -42,3 +42,4 @@ payment_plot <- function(data, pay_type){
                             vjust = 0.5, ## adjust location
                             hjust=1)) ## adjust location
 }
+
