@@ -292,17 +292,18 @@ payment_plot &lt;- function(data, pay_type){
             fill = drg_code)) + ## color boxplots by DRG code 
       geom_boxplot() + ## make boxplots
       guides(fill = &#39;none&#39;) + ## remove legend
-      scale_y_continuous(trans = &#39;log10&#39;, ## use log scale of y-axis 
-                         labels = format_format(scientific = FALSE)) + ## avoid scientific notation 
+      scale_y_continuous(
+        trans = &#39;log10&#39;, ## use log scale of y-axis 
+        labels = format_format(scientific = FALSE)) + ## avoid scientific notation 
       labs(
-        x = &quot;DRG code&quot;, ## relabel x-axis
+        x = &#39;DRG code&#39;, ## relabel x-axis
         y = paste0(&#39;Log (&#39;, pay_type, &#39; (USD))&#39;), ## relabel y-axis
         title = paste(pay_type, &#39;by DRG Code&#39;)) + ## relabel title
       theme_classic() + ## use classic plotting style
       theme(axis.text.x = element_text(
                             angle = 90, ## rotate x-axis label
                             vjust = 0.5, ## adjust location
-                            hjust=1)) ## adjust location
+                            hjust = 1)) ## adjust location
 }
 
 ## function 2: calculate statistics for average Medicare payments by DRG code 

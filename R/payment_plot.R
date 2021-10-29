@@ -30,16 +30,17 @@ payment_plot <- function(data, pay_type){
             fill = drg_code)) + ## color boxplots by DRG code
       geom_boxplot() + ## make boxplots
       guides(fill = 'none') + ## remove legend
-      scale_y_continuous(trans = 'log10', ## use log scale of y-axis
-                         labels = format_format(scientific = FALSE)) + ## avoid scientific notation
+      scale_y_continuous(
+        trans = 'log10', ## use log scale of y-axis
+        labels = format_format(scientific = FALSE)) + ## avoid scientific notation
       labs(
-        x = "DRG code", ## relabel x-axis
+        x = 'DRG code', ## relabel x-axis
         y = paste0('Log (', pay_type, ' (USD))'), ## relabel y-axis
       title = paste(pay_type, 'by DRG Code')) + ## relabel title
       theme_classic() + ## use classic plotting style
       theme(axis.text.x = element_text(
                             angle = 90, ## rotate x-axis label
                             vjust = 0.5, ## adjust location
-                            hjust=1)) ## adjust location
+                            hjust = 1)) ## adjust location
 }
 
