@@ -7,17 +7,19 @@
 payment_calculate(data, statistics)
 }
 \arguments{
-\item{data}{a dataframe.}
+\item{data}{a dataframe}
 
-\item{statistics}{a string name for either the mean, median or standard deviation.}
+\item{statistics}{a string name for either the mean, median or standard deviation}
 }
 \value{
-A dataframe of either the mean, median or standard deviation for average Medicare payments by DRG code.
+A dataframe of either the mean, median or standard deviation for average Medicare payments by DRG code
 }
 \description{
 This function calculates \code{statistics} over all of the DRG codes for average Medicare payments.
 }
 \examples{
-payment_calculate(data = sample_data, statistics = 'mean')
+payment_calculate(data = sample_data, statistics = 'mean') ## return mean of average Medicare payments by DRG code
+payment_calculate(data = sample_data, statistics = 'median') ## return median of average Medicare payments by DRG code
+payment_calculate(data = sample_data, statistics = 'standard deviation') ## return standard deviation of average Medicare payments by DRG code
 
 }

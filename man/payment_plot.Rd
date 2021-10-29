@@ -7,15 +7,15 @@
 payment_plot(data, pay_type)
 }
 \arguments{
-\item{data}{a dataframe.}
+\item{data}{a dataframe}
 
-\item{pay_type}{a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges.}
+\item{pay_type}{a string name for either the Average Medicare Payments, the Average Total Payments, or the Average Covered Charges}
 }
 \value{
-A boxplot of payments of \code{pay_type} by DRG code.
+A boxplot of payments of \code{pay_type} by DRG code
 }
 \description{
-This function creates a boxplot of payments of \code{pay_type} by DRG code.
+This function creates a boxplot of payments for each \code{pay_type} by DRG code.
 }
 \examples{
 payment_plot(data = sample_data, pay_type = 'Average Medicare Payments')

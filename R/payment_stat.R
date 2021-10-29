@@ -12,26 +12,28 @@
 #' @importFrom purrr map
 #'
 #' @examples
-#' payment_calculate(data = sample_data, statistics = 'mean')
+#' payment_calculate(data = sample_data, statistics = 'mean') ## mean of average Medicare payments by DRG code
+#' payment_calculate(data = sample_data, statistics = 'median') ## median of average Medicare payments by DRG code
+#' payment_calculate(data = sample_data, statistics = 'standard deviation') ## standard deviation of average Medicare payments by DRG code
 #'
 payment_calculate <- function(data, statistics){
   data_clean <- data %>%
-    mutate(drg_code = unlist(
-      map(
-        strsplit(
-          x = `DRG Definition`,
-          split = ' '),
-        1))) %>%
-    group_by(drg_code)
-  if(statistics == 'mean'){
+    mutate(drg_code = unlist( ## create a variable for DRG code
+                        map( ## apply string split function to each element of `DRG Definition` column
+                        strsplit( ## extract numerical part of DRG definition
+                          x = `DRG Definition`,
+                          split = ' '),
+                        1))) %>%
+    group_by(drg_code) ## group data by DRG code
+  if(statistics == 'mean'){ ## set condition
     data_clean %>%
-      summarise(mean = mean(`Average Medicare Payments`))
+      summarise(mean = mean(`Average Medicare Payments`)) ## calculate mean of average Medicare payments by DRG code
+  } else if(statistics == 'median'){ ## set condition
+    data_clean %>%
+      summarise(median = median(`Average Medicare Payments`)) ## calculate median of average Medicare payments by DRG code
+  } else { ## set condition
+    data_clean %>%
+      summarise(standard_deviation = sd(`Average Medicare Payments`)) ## calculate standard deviation of average Medicare payments by DRG code
   }
-  else if(statistics == 'median'){
-    data_clean %>%
-      summarise(median = median(`Average Medicare Payments`))}
-  else {
-    data_clean %>%
-      summarise(standard_deviation = sd(`Average Medicare Payments`))}
 }
 

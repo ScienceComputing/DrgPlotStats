@@ -17,25 +17,26 @@
 #'
 payment_plot <- function(data, pay_type){
   data %>%
-    mutate(drg_code = unlist(
-                        map(
-                          strsplit(
+    mutate(drg_code = unlist( ## create a variable for DRG code
+                        map( ## apply string split function to each element of `DRG Definition` column
+                          strsplit( ## extract numerical part of DRG definition
                             x = `DRG Definition`,
                             split = ' '),
                           1))) %>%
-    ggplot(aes(
-      x = drg_code,
-      y = get(pay_type),
-      fill = drg_code)) +
-    geom_boxplot() +
-    guides(fill = 'none') +
-    labs(
-      x = "DRG code",
-      y = pay_type,
-      title = paste(pay_type, ' by DRG Code')) +
-    theme_classic() +
-    theme(axis.text.x = element_text(
-                          angle = 45,
-                          vjust = 0.5,
-                          hjust=1))
+    ggplot(aes( ## initialize ggplot object
+            x = drg_code,
+            y = get(pay_type), ## return value of a named object
+            fill = drg_code)) + ## color boxplots by DRG code
+      geom_boxplot() + ## make boxplots
+      guides(fill = 'none') + ## remove legend
+      scale_y_continuous(trans = 'log10') + ## use log scale of y-axis
+      labs(
+        x = "DRG code", ## relabel x-axis
+        y = paste0('Log (', pay_type, ' (USD))'), ## relabel y-axis
+      title = paste(pay_type, 'by DRG Code')) + ## relabel title
+      theme_classic() + ## use classic plotting style
+      theme(axis.text.x = element_text(
+                            angle = 90, ## rotate x-axis label
+                            vjust = 0.5, ## adjust location
+                            hjust=1)) ## adjust location
 }

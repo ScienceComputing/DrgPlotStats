@@ -51,33 +51,34 @@ options(scipen = 999, digits = 2)
 payment_plot <- function(data, pay_type){
   data %>%
     mutate(drg_code = unlist( ## create a variable for DRG code
-                        map( ## apply strsplit() to each element of `DRG Definition` column
+                        map( ## apply string split function to each element of `DRG Definition` column
                           strsplit( ## extract numerical part of DRG definition
                             x = `DRG Definition`,
                             split = ' '),
                           1))) %>%
     ggplot(aes( ## initialize ggplot object
-      x = drg_code,
-      y = get(pay_type),
-      fill = drg_code)) + ## color boxplots by DRG code 
-    geom_boxplot() + ## make boxplots
-    guides(fill = 'none') + ## remove legend
-    labs(
-      x = "DRG code", ## relabel x-axis
-      y = pay_type, ## relabel y-axis
-      title = paste(pay_type, 'by DRG Code')) + ## relabel title
-    theme_classic() + ## use classic plotting style
-    theme(axis.text.x = element_text(
-                          angle = 90, ## rotate x-axis label
-                          vjust = 0.5, ## adjust location
-                          hjust=1)) ## adjust location
+            x = drg_code,
+            y = get(pay_type), ## return value of a named object
+            fill = drg_code)) + ## color boxplots by DRG code 
+      geom_boxplot() + ## make boxplots
+      guides(fill = 'none') + ## remove legend
+      scale_y_continuous(trans = 'log10') + ## use log scale of y-axis 
+      labs(
+        x = "DRG code", ## relabel x-axis
+        y = paste0('Log (', pay_type, ' (USD))'), ## relabel y-axis
+        title = paste(pay_type, 'by DRG Code')) + ## relabel title
+      theme_classic() + ## use classic plotting style
+      theme(axis.text.x = element_text(
+                            angle = 90, ## rotate x-axis label
+                            vjust = 0.5, ## adjust location
+                            hjust=1)) ## adjust location
 }
 
 ## function 2: calculate statistics for average Medicare payments by DRG code 
 payment_calculate <- function(data, statistics){
   data_clean <- data %>%
     mutate(drg_code = unlist( ## create a variable for DRG code
-                        map( ## apply strsplit() to each element of `DRG Definition` column
+                        map( ## apply string split function to each element of `DRG Definition` column
                           strsplit( ## extract numerical part of DRG definition
                             x = `DRG Definition`, 
                             split = ' '),
@@ -86,13 +87,13 @@ payment_calculate <- function(data, statistics){
   if(statistics == 'mean'){ ## set condition
     data_clean %>%
       summarise(mean = mean(`Average Medicare Payments`)) ## calculate mean of average Medicare payments by DRG code
+  } else if(statistics == 'median'){ ## set condition
+    data_clean %>%
+      summarise(median = median(`Average Medicare Payments`)) ## calculate median of average Medicare payments by DRG code
+  } else { ## set condition
+    data_clean %>%
+      summarise(standard_deviation = sd(`Average Medicare Payments`)) ## calculate standard deviation of average Medicare payments by DRG code
   }
-  else if(statistics == 'median'){ ## set condition
-    data_clean %>%
-      summarise(median = median(`Average Medicare Payments`))} ## calculate median of average Medicare payments by DRG code
-  else { ## set condition
-    data_clean %>%
-      summarise(standard_deviation = sd(`Average Medicare Payments`))} ## calculate standard deviation of average Medicare payments by DRG code
 }
 ```
 
@@ -106,15 +107,19 @@ save(sample_data, file = 'data/sample_data.RData') ## save data as .RData
 
 ## experiment with function 1 using 'Average Medicare Payments'
 payment_plot(data = sample_data, pay_type = 'Average Medicare Payments')
+
 ## experiment with function 1 using 'Average Total Payments'
 payment_plot(data = sample_data, pay_type = 'Average Total Payments')
+
 ## experiment with function 1 using 'Average Covered Charges'
 payment_plot(data = sample_data, pay_type = 'Average Covered Charges')
 
 ## experiment with function 2 using 'mean'
 payment_calculate(data = sample_data, statistics = 'mean') ## calculate mean of average Medicare payments by DRG code
+
 ## experiment with function 2 using 'median'
 payment_calculate(data = sample_data, statistics = 'median') ## calculate median of average Medicare payments by DRG code
+
 ## experiment with function 2 using 'standard deviation'
 payment_calculate(data = sample_data, statistics = 'standard deviation') ## calculate standard deviation of average Medicare payments by DRG code
 ```
@@ -124,9 +129,11 @@ payment_calculate(data = sample_data, statistics = 'standard deviation') ## calc
 ### Wrap functions into an R package
 ```{r, package coding}
 ## This part documents core coding operations on wrapping functions into an R package
+
 ## document() ## build documentation
 ## setwd('..') ## go down one level in the working directory
 ## install('DrgPlotStats') ## install new package
+## setwd('E:/Angela HodgePodge/0 WeillCornellMedicine/WCMPHS_course/DataScienceI/RProject/DrgPlotStats') ## back to working directory as the package
 ## ?payment_plot ## check help page of function 1
 ## ?payment_calculate ## check help page of function 2
 ## data(sample_data) ## load sample data attached to package
