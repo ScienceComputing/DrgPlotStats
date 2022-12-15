@@ -1,6 +1,6 @@
 ---
-title: 'Lab #2: Making an R Package'
-author: <font size = 5>Student Anni Liu</font>
+title: 'Making an R Package'
+author: <font size = 5>Anni Liu</font>
 date: <font size = 2>*Due 11:59 pm on October 29, 2021*</font>
 output:
   html_document:
